@@ -1,0 +1,23 @@
+name: Python Test # CI/CD 工作流的名称
+
+on: [push] # 触发工作流的事件：每次推送到仓库时
+
+jobs: # 定义一个或多个作业
+  test: # 作业的名称
+    runs-on: ubuntu-latest # 作业运行的环境，这里是最新版本的 Ubuntu Linux
+
+    steps: # 作业中执行的步骤序列
+      - uses: actions/checkout@v4 # 步骤 1: 检出仓库代码
+        # 这个 action 会将你的 GitHub 仓库代码克隆到运行器上。
+        # @v4 表示使用 version 4 的 checkout action。
+
+      - uses: actions/setup-python@v5 # 步骤 2: 设置 Python 环境
+        # 这个 action 会在运行器上安装指定版本的 Python。
+        with:
+          python-version: "3.11" # 指定安装 Python 3.11 版本。
+
+      - run: pip install -r requirements.txt # 步骤 3: 安装项目依赖
+        # 运行 shell 命令来安装在 requirements.txt 中列出的所有 Python 包。
+
+      - run: pytest --html=report.html --self-contained-html # 步骤 4: 运行测试并生成报告
+        # 运行 pytest 测试命令，并生成 HTML 格式的测试报告。
